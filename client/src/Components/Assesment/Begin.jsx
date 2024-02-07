@@ -22,8 +22,9 @@ const Begin = () => {
   return (
     <div
       style={{
-        height: "100vh",
+        height: "max-content",
         width: "100vw",
+        marginBlock: "2rem",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",

@@ -4,6 +4,10 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
+.begin-top {
+  height: max-content;
+}
+
 .begin-inner-top {
   padding: 2rem;
   background-color: white;
@@ -35,7 +39,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: max-content;
   padding: 2rem;
+  font-family: "Montserrat", sans-serif;
 }
 
 .test-inner-top {
@@ -84,3 +90,111 @@ body {
   transition: background-color 0.3s ease;
   font-family: "Montserrat", sans-serif;
 }
+
+.timer {
+  display: flex;
+  background-color: white;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-family: "Montserrat", sans-serif;
+  width: 6rem;
+  margin-right: 1rem;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  border: 1px solid #e0e0e0;
+  height: max-content;
+}
+
+.timer p {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.thank-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-family: "Montserrat", sans-serif;
+  flex-direction: column;
+  width: 60%;
+  margin: 2rem auto;
+  height: 60vh;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+}
+
+.thank-top h2 {
+  color: #545454;
+}
+
+.login-inner-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-family: "Montserrat", sans-serif;
+  flex-direction: row;
+  width: 60%;
+  gap: 1rem;
+  margin: 2rem auto;
+  height: 60vh;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+}
+.auth-inner-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  font-family: "Montserrat", sans-serif;
+  flex-direction: row;
+  width: 80%;
+  gap: 1rem;
+  margin: 2rem auto;
+  height: max-content;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+}
+.auth-image {
+  flex: 5;
+}
+
+.auth-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.auth-form > .button {
+  background-color: #f0f5fe;
+  border: 1px solid #e0e0e0;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  width: max-content;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+  font-family: "Montserrat", sans-serif;
+}
+
+.auth-form > .button:hover {
+  background-color: #e0e0e0;
+}
+
+.auth-form {
+  flex: 4;
+  display: flex;
+  flex-direction: column;
+}
+.form-head {
+  font-size: 2.5rem;
+  font-weight: 500;
+  /* margin-bottom: 1rem; */
+}
+
+/* #standard-basic {
+  margin: 1rem 0;
+} */

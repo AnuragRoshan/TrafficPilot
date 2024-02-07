@@ -7,19 +7,24 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { useSelector } from "react-redux";
+import { selectUserStatus, selectUsers } from "../Redux/Features/userSlice";
+import axios from "axios";
+import { api } from "../Data/env";
 
 const pages = ["Home", "Profile", "Assessment"]; // Updated the "Assesment" to "Assessment"
-const settings = ["Profile", "Result", "License", "Logout"];
+const settings = ["Profile", "Result", "License"];
 
 function ResponsiveAppBar() {
+  const userStatus = useSelector(selectUserStatus);
+  const user = useSelector(selectUsers);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  console.log(user.name);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -35,8 +40,27 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(`${api}logout`, null, {
+        withCredentials: true, // include cookies in the request
+      });
+
+      if (response.status === 200) {
+        // Logout successful
+        console.log("User logged out");
+        window.location.href = "/";
+      } else {
+        // Handle logout failure
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
+
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#f0f5fe" }}>
+    <AppBar position="static" sx={{ backgroundColor: "white" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -117,57 +141,131 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            TrafficPilot
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                component={Link} // Use Link component for routing
-                to={`/${page.toLowerCase()}`}
-                onClick={handleCloseNavMenu}
-                sx={{
-                  my: 2,
-                  color: "black",
-                  display: "block",
-                  fontWeight: 700,
-                }}
-              >
-                {page}
-              </Button>
-            ))}
+            {pages.map((page) => {
+              // Check if the page is "Assessment" or "Profile" and userStatus is false
+              if (
+                (page === "Assessment" || page === "Profile") &&
+                !userStatus
+              ) {
+                return null; // Skip rendering this page
+              }
+              // Otherwise, render the button
+              return (
+                <Button
+                  key={page}
+                  component={Link} // Use Link component for routing
+                  to={`/${page.toLowerCase()}`}
+                  onClick={handleCloseNavMenu}
+                  sx={{
+                    fontFamily: "Montserrat, sans-serif",
+                    my: 2,
+                    color: "black",
+                    display: "block",
+                    fontWeight: 700,
+                  }}
+                >
+                  {page}
+                </Button>
+              );
+            })}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          {userStatus ? (
+            <>
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton
+                    onClick={handleOpenUserMenu}
+                    sx={{ p: 0, padding: "1rem" }}
+                  >
+                    <i
+                      class="fa-regular fa-user"
+                      style={{
+                        fontSize: "1.5rem",
+                      }}
+                    ></i>
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  <MenuItem>
+                    <Button
+                      textAlign="center"
+                      sx={{
+                        fontFamily: "Montserrat, sans-serif",
+                        color: "black",
+                        display: "block",
+                      }}
+                    >
+                      {user.name}
+                    </Button>
+                  </MenuItem>
+                  {settings.map((setting) => (
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Button
+                        component={Link} // Use Link component for routing
+                        to={`/${setting.toLowerCase()}`}
+                        textAlign="center"
+                        sx={{
+                          fontFamily: "Montserrat, sans-serif",
+                          color: "black",
+                          display: "block",
+                        }}
+                      >
+                        {setting}
+                      </Button>
+                    </MenuItem>
+                  ))}
+                  {/* For logout make seperate handleclick */}
+                  <MenuItem
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      handleLogout();
+                    }}
+                  >
+                    <Button
+                      textAlign="center"
+                      sx={{
+                        fontFamily: "Montserrat, sans-serif",
+                        color: "black",
+                        display: "block",
+                      }}
+                    >
+                      Logout
+                    </Button>
+                  </MenuItem>
+                </Menu>
+              </Box>
+            </>
+          ) : (
+            <>
+              <Link
+                style={{ textDecoration: "none", color: "black" }}
+                to={"/login"}
+              >
+                {" "}
+                Login
+              </Link>{" "}
+            </>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

@@ -23,7 +23,7 @@ const Footer = () => {
         }}
       >
         <h2 style={{ margin: 0, fontSize: "2rem" }}>TRAFFIC PILOT</h2>
-        <p>Elevating Reading Pleasure with Exceptional Book Recommendations.</p>
+        <p>Elevating travel through innovation and safety.</p>
       </div>
 
       <div
