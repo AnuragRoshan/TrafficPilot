@@ -130,7 +130,7 @@ const Signup = () => {
               type="file"
               variant="standard"
               onChange={handleFileChange}
-              style={{ width: "40%" }}
+              style={{ width: "50%" }}
             />
           </div>
           <div
@@ -148,7 +148,7 @@ const Signup = () => {
               type="file"
               variant="standard"
               onChange={handleFileChange}
-              style={{ width: "40%" }}
+              style={{ width: "50%" }}
             />
           </div>
           <button type="submit" className="button" onClick={handleSubmit}>

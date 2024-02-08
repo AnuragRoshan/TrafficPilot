@@ -1,22 +1,18 @@
 import React from "react";
 import { setReady } from "../../Redux/Features/statusSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { api } from "../../Data/env";
+import { selectUsers } from "../../Redux/Features/userSlice";
 
 const Begin = () => {
   const dispatch = useDispatch();
+  const user = useSelector(selectUsers);
 
-  const handleStartTest = () => {
+  const handleStartTest = async () => {
     dispatch(setReady());
-    // Fullscreen API code can be added here if needed
-    // if (document.documentElement.requestFullscreen) {
-    //   document.documentElement.requestFullscreen();
-    // } else if (document.documentElement.mozRequestFullScreen) {
-    //   document.documentElement.mozRequestFullScreen();
-    // } else if (document.documentElement.webkitRequestFullscreen) {
-    //   document.documentElement.webkitRequestFullscreen();
-    // } else if (document.documentElement.msRequestFullscreen) {
-    //   document.documentElement.msRequestFullscreen();
-    // }
+
+    await axios.post(`${api}startAssess`, { userId: user.id });
   };
 
   return (

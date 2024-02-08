@@ -15,6 +15,9 @@ export const userSlice = createSlice({
                 name: action.payload.name,
                 email: action.payload.email,
                 isCompleted: action.payload.isCompleted,
+                address: action.payload.address,
+                mobileNumber: action.payload.mobileNumber,
+                startTimestamp: action.payload.startTimestamp,
             };
 
             // If there were no users (users is null), initialize the users object

@@ -107,6 +107,7 @@ exports.getQuestions = async (req, res, next) => {
 exports.startAssessment = async (req, res, next) => {
 
     const { userId } = req.body;
+    console.log(userId);
 
     try {
         // Find the user by ID
@@ -152,3 +153,85 @@ exports.toggleAnswer = async (req, res, next) => {
     }
 
 }
+
+exports.endAssessment = async (req, res, next) => {
+    const { userId } = req.body;
+
+    try {
+        // Find the user by ID
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Remove the start timestamp
+        user.isCompleted = true;
+
+        // Save the updated user document
+        await user.save();
+
+        return res.status(200).json({ message: 'Test Ended successfully' });
+    }
+    catch (error) {
+        console.error('Error removing start timestamp:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
+exports.updateUser = async (req, res, next) => {
+    const { userId, name, email, mobileNumber, address } = req.body;
+
+    try {
+        // Find the user by userId
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Update user fields
+        user.name = name;
+        user.username = email;
+        user.mobileNumber = mobileNumber;
+        user.address = address;
+
+        // Save the updated user
+        await user.save();
+
+        return res.status(200).json({ message: "User updated successfully" });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+
+}
+
+exports.getResults = async (req, res, next) => {
+    const { userId } = req.body;
+    console.log(userId);
+
+    try {
+        // Retrieve all user answers
+        const userAnswers = await UserAnswer.find({ user: userId }).populate('question');
+
+        // Extract question details and count correct, wrong, and skipped questions
+        const results = userAnswers.reduce((acc, answer) => {
+            if (answer.answer === answer.question.correctAnswer) {
+                acc.correctCount++;
+            } else if (answer.answer !== answer.question.correctAnswer) {
+                acc.wrongCount++;
+            }
+            acc.totalCount++;
+            return acc;
+        }, { correctCount: 0, wrongCount: 0, totalCount: 0 });
+
+        const totalQuestions = await Question.countDocuments();
+        results.skippedQuestions = totalQuestions - results.totalCount;
+
+        res.json(results);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};

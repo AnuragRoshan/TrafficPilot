@@ -1,11 +1,72 @@
-.home-banner {
+/* .home-banner {
   background-image: url("https://images.unsplash.com/photo-1553782097-130fef5d3e27?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
   background-size: cover;
   background-position: center;
   height: 70vh;
   justify-content: center;
-}
+} */
 
 .home-top {
-  height: 70vh;
+  height: 90vh;
+}
+
+.home-inner-top {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+  margin-top: 1rem;
+  padding: 0rem 3rem 3rem;
+  margin-bottom: 3rem;
+}
+
+.company-detail {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  gap: 1rem;
+  margin-left: 1rem;
+}
+.company-name {
+  line-height: 4rem;
+  font-size: 3.1rem;
+  font-weight: 600;
+  color: #242424;
+}
+.company-desc {
+  width: 70%;
+  color: #4d4d4d;
+  /* font-weight: 600; */
+}
+.company-btn {
+  display: flex;
+  margin-top: 1rem;
+  width: max-content;
+  padding: 0.6rem 1.5rem;
+  border-radius: 0.6rem;
+  text-decoration: none;
+  color: black;
+  border: 1px solid #b3b3b3;
+  background-color: white;
+  transition: 0.3s;
+}
+.company-btn:hover {
+  background-color: #242424;
+  color: white;
+}
+
+.company-bottom {
+  color: rgb(0, 195, 255);
+}
+
+.home-banner {
+  flex: 2;
+  background-image: url("https://ik.imagekit.io/i3divn77k/vector/undraw_information_tab_re_f0w3.svg?updatedAt=1707326372654");
+  background-size: cover;
+
+  align-items: center;
+  background-position: top;
+  height: 100%;
+  justify-content: center;
 }

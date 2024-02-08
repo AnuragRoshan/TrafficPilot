@@ -1,42 +1,73 @@
 import React, { useState, useEffect } from "react";
-import { setTestComplete } from "../../Redux/Features/statusSlice";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Radio, RadioGroup, FormControlLabel } from "@mui/material";
-import { api } from "../../Data/env";
+import { api, formatTime } from "../../Data/env";
 import axios from "axios";
+import { selectUsers } from "../../Redux/Features/userSlice";
 
 const Test = () => {
-  const dispatch = useDispatch();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState({});
   const [timer, setTimer] = useState(900);
   const [questions, setQuestions] = useState([]);
-
+  const user = useSelector(selectUsers);
   useEffect(() => {
     fetchQuestions();
+
+    const startTimestamp = user.startTimestamp;
+    const parsedTimestamp = new Date(startTimestamp);
+    // const timeDifference = currentTime - startUnixTimestamp;
+    const initializeTimer = () => {
+      const startTimestamp = user.startTimestamp;
+      if (!startTimestamp) {
+        // Timer starts from 900 seconds if startTimestamp is not present
+        setTimer(900);
+      } else {
+        // Parse the startTimestamp string into a Date object
+        const parsedTimestamp = new Date(startTimestamp);
+
+        // Calculate the time difference between current time and startTimestamp
+        const currentTime = Math.floor(Date.now() / 1000);
+        const startUnixTimestamp = Math.floor(parsedTimestamp.getTime() / 1000);
+        const timeDifference = currentTime - startUnixTimestamp;
+
+        if (timeDifference < 900) {
+          // Timer starts from the remaining time if less than 900 seconds
+          setTimer(900 - timeDifference);
+        } else {
+          // Timer exceeds 900 seconds, end the test
+          // endTest();
+        }
+      }
+    };
+
+    initializeTimer();
 
     const intervalId = setInterval(() => {
       setTimer((prevTimer) => prevTimer - 1);
     }, 1000);
-
     return () => clearInterval(intervalId);
-  }, []);
+  }, [user]);
 
+  // useEffect(() => { }, [timer, dispatch]);
   useEffect(() => {
     if (timer === 0) {
-      dispatch(setTestComplete());
+      endTest();
     }
-  }, [timer, dispatch]);
+  }, [timer]);
 
-  const endTest = () => {
-    dispatch(setTestComplete());
+  const endTest = async () => {
+    console.log("Done With Test");
+    await axios.post(`${api}endAssessment`, { userId: user.id }).then((res) => {
+      window.location.reload();
+    });
   };
 
   const fetchQuestions = async () => {
     try {
       const response = await axios.get(`${api}getQuestions`);
       setQuestions(response.data);
-      console.log(response.data);
+      // console.log(response.data);
       // Initialize selected options for each question
       const initialSelectedOptions = {};
       response.data.forEach((question) => {
@@ -65,21 +96,18 @@ const Test = () => {
       ...prevOptions,
       [questions[currentQuestionIndex]._id]: option,
     }));
+    axios
+      .post(`${api}toggleAnswer`, {
+        userId: user.id,
+        questionId: questions[currentQuestionIndex]._id,
+        answer: option,
+      })
+      .then((res) => {
+        console.log(res);
+      });
   };
 
   const currentQuestion = questions[currentQuestionIndex];
-
-  const formatTime = (timeInSeconds) => {
-    const hours = Math.floor(timeInSeconds / 3600);
-    const minutes = Math.floor((timeInSeconds % 3600) / 60);
-    const seconds = timeInSeconds % 60;
-
-    const formattedHours = String(hours).padStart(2, "0");
-    const formattedMinutes = String(minutes).padStart(2, "0");
-    const formattedSeconds = String(seconds).padStart(2, "0");
-
-    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-  };
 
   return (
     <div className="test-top">

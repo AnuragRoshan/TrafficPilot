@@ -24,7 +24,7 @@ function ResponsiveAppBar() {
   const user = useSelector(selectUsers);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  console.log(user.name);
+  // console.log(user.name);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -60,7 +60,10 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "white" }}>
+    <AppBar
+      position="static"
+      sx={{ backgroundColor: "white", boxShadow: "none" }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -144,7 +147,12 @@ function ResponsiveAppBar() {
             TrafficPilot
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             {pages.map((page) => {
               // Check if the page is "Assessment" or "Profile" and userStatus is false
               if (
@@ -258,7 +266,15 @@ function ResponsiveAppBar() {
           ) : (
             <>
               <Link
-                style={{ textDecoration: "none", color: "black" }}
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                  // backgroundColor: "rgb(0, 195, 255)",
+                  border: "1px solid #b3b3b3",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "1rem",
+                  // fontWeight: 600,
+                }}
                 to={"/login"}
               >
                 {" "}

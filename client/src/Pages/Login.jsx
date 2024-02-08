@@ -28,11 +28,11 @@ const Login = () => {
         //   window.history.replaceState(null, "", "/");
         console.log(response);
         // Navigate("/");
-        // if (response.status === 200) {
-        //   window.location.href = "/";
-        // } else if (response.status === 201) {
-        //   alert("Wrong Credentials Try Again !");
-        // }
+        if (response.status === 200) {
+          window.location.href = "/";
+        } else if (response.status === 201) {
+          alert("Wrong Credentials Try Again !");
+        }
       });
   };
 

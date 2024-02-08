@@ -13,6 +13,9 @@ import { api } from "./Data/env";
 import { useEffect } from "react";
 import axios from "axios";
 import Profile from "./Pages/Profile";
+import ThankYou from "./Components/Assesment/ThankYou";
+import Assessment from "./Pages/Assesment";
+import License from "./Pages/License";
 
 function App() {
   // Empty dependency array ensures that it runs only once when mounted
@@ -30,9 +33,14 @@ function App() {
         name: data.name,
         email: data.username,
         isCompleted: data.isCompleted,
+        startTimestamp: data.startTimestamp,
+        mobileNumber: data.mobileNumber,
+        address: data.address
       };
 
       dispatch(addUser(userData));
+      dispatch(addUser(userData));
+
       console.log(data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -51,12 +59,16 @@ function App() {
         <Navbar />
         <Routes>
           <Route path='/home' element={<Home />} />
-          <Route exact path='/assessment' element={<Assesment />} />
-          <Route exact path='/result' element={<Result />} />
-          <Route exact path='/signup' element={user ? <Navigate to='/home' /> : <Signup />} />
-          <Route exact path='/login' element={user ? <Navigate to='/home' /> : <Login />} />
-          <Route exact path='/profile' element={user ? <Profile /> : <Navigate to='/home' />} />
-        </Routes>
+          <Route path='/' element={<Home />} />
+          <Route exact path='/signup' element={<Signup />} />
+          <Route exact path='/login' element={<Login />} />
+          {user ? <>
+            <Route exact path='/assessment' element={<Assesment />} />
+            <Route exact path='/result' element={<Result />} />
+            <Route exact path='/thank' element={<ThankYou />} />
+            <Route exact path='/profile' element={<Profile />} />
+            <Route exact path='/license' element={user ? <License /> : <Navigate to='/home' />} />
+          </> : <></>}</Routes>
         <Footer />
       </Router>
     </div>

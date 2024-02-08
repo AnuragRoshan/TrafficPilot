@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const ThankYou = () => {
   useEffect(() => {
@@ -10,7 +11,7 @@ const ThankYou = () => {
       <h2>Thank you for taking the assessment!</h2>
       <p>Your results have been generated.</p>
       <p>Navigate to the result page to view your performance.</p>
-      <a href="/result">Go to Result Page</a>
+      <Link to={"/result"}>Go to Result Page</Link>
     </div>
   );
 };
