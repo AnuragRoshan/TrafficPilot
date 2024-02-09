@@ -1,5 +1,5 @@
 // export const api = "https://book-recom-backend.onrender.com/";
-export const api = "https://trafficpilot-backend.onren`der.com/";
+export const api = "https://trafficpilot-backend.onrender.com/";
 
 export const formatTime = (timeInSeconds) => {
     const hours = Math.floor(timeInSeconds / 3600);
