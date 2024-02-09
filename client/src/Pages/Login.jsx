@@ -29,7 +29,7 @@ const Login = () => {
 
       if (response.data.token) {
         // Successful login
-        window.location.href = "/";
+        // window.location.href = "/";
         alert("Login successful");
       } else {
         // Invalid credentials
