@@ -31,6 +31,7 @@ exports.loginUser = async (req, res, next) => {
                 expires: new Date(
                     Date.now() + 90 * 24 * 60 * 60 * 1000 //90 days
                 ),
+                secure: true,
                 httpOnly: true,
             };
             res.status(200).cookie("jwt", token, options).json({ msg: 'User Logged In Successfully', token, user });
