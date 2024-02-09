@@ -8,7 +8,7 @@ import axios from "axios";
 const Result = () => {
   const [result, setResult] = useState();
   // const [pass, setPass] = useState(false);
-  const pass = false;
+  // const pass = false;
   useEffect(() => {
     // console.log(user.id);
     getResult();
