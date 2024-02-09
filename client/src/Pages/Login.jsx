@@ -20,20 +20,26 @@ const Login = () => {
   };
 
   const handleSubmit = async () => {
-    await axios
-      .post(`${api}login`, formData, {
+    try {
+      const response = await axios.post(`${api}login`, formData, {
         withCredentials: true,
-      })
-      .then((response) => {
-        //   window.history.replaceState(null, "", "/");
-        console.log(response);
-        // Navigate("/");
-        if (response.status === 200) {
-          window.location.href = "/";
-        } else if (response.status === 201) {
-          alert("Wrong Credentials Try Again !");
-        }
       });
+
+      console.log(response);
+
+      if (response.data.token) {
+        // Successful login
+        window.location.href = "/";
+        alert("Login successful");
+      } else {
+        // Invalid credentials
+        alert("Wrong Credentials. Try Again!");
+      }
+    } catch (error) {
+      console.error("Error occurred:", error);
+      // Handle other errors, e.g., network issues
+      alert("An error occurred. Please try again later.");
+    }
   };
 
   return (
