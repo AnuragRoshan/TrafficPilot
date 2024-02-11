@@ -1,5 +1,5 @@
 ## Traffic Pilot
-TrafficEd, a comprehensive online platform designed to enhance road safety knowledge and awareness. Our project boasts state-of-the-art security measures, including encrypted passwords and bcrypt hashing, ensuring the protection of user data. Users can easily manage their profiles, updating personal information at their convenience. Dive into interactive assessments featuring a diverse range of multiple-choice questions, covering various aspects of traffic regulations. With seamless assessment management and automated result generation,
+Traffic Pilo, a comprehensive online platform designed to enhance road safety knowledge and awareness. Our project boasts state-of-the-art security measures, including encrypted passwords and bcrypt hashing, ensuring the protection of user data. Users can easily manage their profiles, updating personal information at their convenience. Dive into interactive assessments featuring a diverse range of multiple-choice questions, covering various aspects of traffic regulations. With seamless assessment management and automated result generation,
 ## Tech Stack
 
 **Client:** React, Redux, Material UI
